@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import json
+import pandas as pd
 
 def load_json(file):
     try:
@@ -19,18 +20,26 @@ def extract_users(data, key=None):
             users.append((item['string_list_data'][0]['value'], item['string_list_data'][0]['href']))
     return users
 
+def export_to_csv(users):
+    df = pd.DataFrame(users, columns=['Username', 'Profile URL'])
+    csv = df.to_csv(index=False)
+    return csv
+
+
 def main():
-    st.set_page_config(page_title="Instagram Unfollowers Checker", page_icon="📷")
+    st.set_page_config(page_title="Instagram Unfollowers Checker", page_icon="📷", initial_sidebar_state="expanded")
 
     st.title("Instagram Unfollowers Checker")
 
     st.write("Ever wondered who's unfollowed you on Instagram, but don't want to deal with sketchy apps asking for your "
-    "account info or bombarding you with ads? This website is here to help! Just upload your data and get an instant,"
+    "account info or bombarding you with ads? This website is here to help!")
+
+    st.write("Just upload your Instagram `following.json` and `followers.json` files and get an instant,"
     " ad-free, and secure list of who’s not following you back—no strings attached.")
+    st.write("If you don't know how to download these files, check out the instructions in the sidebar.")
 
-    st.write("Upload your Instagram `following.json` and `followers.json` files to see who isn't following you back.")
-
-    with st.expander("How to download your Instagram following and followers data:"):
+    with st.sidebar:
+        st.header("How to download your Instagram following and followers data:")
         st.markdown("""
         1. **Access Instagram's Account Center:**
             - Open the Instagram app on your device.
@@ -63,6 +72,7 @@ def main():
     following_file = st.file_uploader("Upload following.json", type="json")
     followers_file = st.file_uploader("Upload followers.json", type="json")
 
+
     if following_file and followers_file:
         following_data = load_json(following_file)
         followers_data = load_json(followers_file)
@@ -75,7 +85,7 @@ def main():
 
              # Display Stats
             st.markdown(f"""
-            <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; font-size: 18px;">
                 <div><strong>👥 Following:</strong> {len(following)}</div>
                 <div><strong>👤 Followers:</strong> {len(followers)}</div>
                 <div><strong>🚫 Not Following Back:</strong> {len(not_following_back)}</div>
@@ -85,6 +95,27 @@ def main():
             # Display Users Not Following Back
             if not_following_back:
                 not_following_back = sorted(not_following_back, key=lambda x: x[0].lower())                 # sort alphabetically
+
+
+                csv_data = export_to_csv(not_following_back)
+                st.markdown(
+                    """
+                    <div style="display: flex; justify-content: center; margin-top: 20px;">
+                        <div>
+                            <style>
+                                .stDownloadButton button {
+                                    margin: auto;
+                                    display: block;
+                                }
+                                .stDownloadButton button:hover {
+                                    color: blue;
+                                    border-color: blue;
+                            </style>
+                            """,
+                    unsafe_allow_html=True,
+                )
+                st.download_button("Download CSV File of IG Unfollowers", csv_data, "instagram_unfollowers.csv", "text/csv")
+
 
                 st.markdown("### 🚨 Users Not Following You Back:")
 
@@ -108,5 +139,20 @@ def main():
                     """, unsafe_allow_html=True)
             else:
                 st.success("🎉 Everyone you follow is following you back!")
+
+    # Ko-fi link integration
+    st.markdown(""" 
+      <p style="display: flex; justify-content: center; margin: 20px;"> Consider supporting me by buying me a coffee ☕️ if you find this tool helpful: </p>
+
+        <div style="display: flex; justify-content: center; margin: 20px;">
+            <a href='https://ko-fi.com/R5R71CFRC2' target='_blank'>
+                <img height='36' style='border:0px;height:36px;' 
+                    src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' 
+                    border='0' 
+                    alt='Buy Me a Coffee at ko-fi.com' />
+            </a>
+        </div>
+    """, unsafe_allow_html=True)
+
 if __name__ == "__main__":
     main()
