@@ -17,3 +17,5 @@ A simple Streamlit app template for you to modify!
    ```
    $ streamlit run streamlit_app.py
    ```
+
+Flaticon credit: <a href="https://www.flaticon.com/free-icons/placeholder" title="placeholder icons">Placeholder icons created by QudaDesign - Flaticon</a>
