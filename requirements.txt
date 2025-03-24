@@ -1,3 +1,2 @@
-streamlit
-json
-pandas
+streamlit==1.43.2
+pandas==2.2.2
