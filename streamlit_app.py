@@ -1,13 +1,28 @@
 import streamlit as st
-from PIL import Image
 import json
 import pandas as pd
 
 def load_json(file):
     try:
-        return json.load(file)
+        # Check if file is empty
+        if file.size == 0:
+            st.error("Uploaded file is empty. Please upload a valid JSON file.")
+            return None
+
+        # Load JSON data
+        data = json.load(file)
+
+        # Check if data is in expected format
+        if not isinstance(data, dict):
+            st.error("Uploaded file is not in the expected JSON format. Please upload a valid file.")
+            return None
+
+        return data
+    except json.JSONDecodeError:
+        st.error("Error decoding JSON. Please ensure the file contains valid JSON data.")
+        return None
     except Exception as e:
-        st.error(f"Error loading JSON: {e}")
+        st.error(f"Unexpected error: {e}")
         return None
 
 def extract_users(data, key=None):
@@ -38,6 +53,7 @@ def main():
     " ad-free, and secure list of who’s not following you back—no strings attached.")
     st.write("If you don't know how to download these files, check out the instructions in the sidebar.")
 
+    # Sidebar with instructions
     with st.sidebar:
         st.header("How to download your Instagram following and followers data:")
         st.markdown("""
@@ -97,7 +113,9 @@ def main():
                 not_following_back = sorted(not_following_back, key=lambda x: x[0].lower())                 # sort alphabetically
 
 
-                csv_data = export_to_csv(not_following_back)
+
+                # Export to CSV
+                csv_data = export_to_csv(not_following_back) 
                 st.markdown(
                     """
                     <div style="display: flex; justify-content: center; margin-top: 20px;">
@@ -117,9 +135,11 @@ def main():
                 st.download_button("Download CSV File of IG Unfollowers", csv_data, "instagram_unfollowers.csv", "text/csv")
 
 
+
                 st.markdown("### 🚨 Users Not Following You Back:")
 
                 for user, url in not_following_back:
+                    #User List Display
                     st.markdown(f"""
                     <a href="{url}" target="_blank" style="text-decoration: none; color: inherit;">
                         <div style="
