@@ -35,6 +35,11 @@ A Streamlit web app that allows you to check who isn’t following you back on I
 ## 👥 Credits
 **Flaticon**: The profile icon used in the app was sourced from [Flaticon](https://www.flaticon.com) with credits to the creator [QudaDesign](https://www.flaticon.com/authors/qudadesign).
 
+## 🐝 Support
+
+If you find this app helpful, consider supporting the project by buying a coffee:
+
+[![Buy Me a Coffee](https://storage.ko-fi.com/cdn/kofi5.png?v=6)](https://ko-fi.com/R5R71CFRC2)
 
 ## 📜 License
 This project is open-source and available under the [MIT License](LICENSE).
