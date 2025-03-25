@@ -1,6 +1,5 @@
 # Instagram Unfollowers Checker
-
-A Streamlit web app that allows you to check who isn’t following you back on Instagram by uploading your `following.json` and `followers.json` files. The app is ad-free, secure, and simple to use. You can also download the list of users who aren't following you back in CSV format.
+Curious to know who isn’t following you back on Instagram? This ad-free and secure Streamlit web app makes it easy—upload your following.json and followers.json files, and instantly see who isn’t following you back. You can even download the list in CSV format for future reference.
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://instagramunfollowers.streamlit.app/)
 
