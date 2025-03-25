@@ -136,7 +136,7 @@ def main():
                 for user, url in not_following_back:
                     #User List Display
                     st.markdown(f"""
-                    <a href="{url}" target="_blank" style="text-decoration: none; color: inherit;">
+                    <a href="{url}" target="_blank" style="text-decoration: none; color: black;">
                         <div style="
                             display: flex; 
                             align-items: center; 
