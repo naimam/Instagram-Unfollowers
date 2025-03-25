@@ -12,11 +12,6 @@ def load_json(file):
         # Load JSON data
         data = json.load(file)
 
-        # Check if data is in expected format
-        if not isinstance(data, dict):
-            st.error("Uploaded file is not in the expected JSON format. Please upload a valid file.")
-            return None
-
         return data
     except json.JSONDecodeError:
         st.error("Error decoding JSON. Please ensure the file contains valid JSON data.")
